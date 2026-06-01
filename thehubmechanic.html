@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hub Mechanic — HubSpot CRM & RevOps Optimization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1e2a4a;
+    --navy-light: #2d3f6e;
+    --cream: #f5f3ec;
+    --cream-dark: #eceadf;
+    --slate: #5a6580;
+    --accent: #e8863a;
+    --accent-light: #f4a96a;
+    --accent-pale: #fdf0e3;
+    --white: #ffffff;
+    --text: #1a1f2e;
+    --text-muted: #6b7280;
+    --border: rgba(30,42,74,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(245,243,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-brand span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--slate);
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--navy); }
+
+  .nav-cta {
+    background: var(--navy) !important;
+    color: var(--white) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--navy-light) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 7rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(30,42,74,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,42,74,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-blob {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(232,134,58,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-blob2 {
+    position: absolute;
+    bottom: -10%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(30,42,74,0.07) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-pale);
+    border: 1px solid rgba(232,134,58,0.25);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 .highlight {
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--slate);
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    transition: all 0.25s;
+    border: 2px solid var(--navy);
+  }
+
+  .btn-primary:hover {
+    background: var(--navy-light);
+    border-color: var(--navy-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    transition: all 0.25s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--navy);
+    background: rgba(30,42,74,0.04);
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hero-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: floatIn 0.6s ease both;
+    box-shadow: 0 4px 24px rgba(30,42,74,0.06);
+  }
+
+  .hero-card:nth-child(2) { animation-delay: 0.1s; margin-left: 2rem; }
+  .hero-card:nth-child(3) { animation-delay: 0.2s; }
+  .hero-card:nth-child(4) { animation-delay: 0.3s; margin-left: 2rem; }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--accent-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+  }
+
+  .hero-card-text strong {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .hero-card-text span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  /* TRUST BAR */
+  .trust-bar {
+    background: var(--navy);
+    color: rgba(255,255,255,0.7);
+    padding: 1.25rem 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .trust-item strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 5rem 2rem;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .section-intro {
+    font-size: 1.05rem;
+    color: var(--slate);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* SERVICES */
+  #services { background: var(--white); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .service-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(30,42,74,0.1);
+  }
+
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .service-card p {
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--white);
+    color: var(--navy);
+    border: 1px solid var(--border);
+  }
+
+  /* HOW IT WORKS */
+  #process { background: var(--cream); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+    margin-top: 3rem;
+  }
+
+  .process-step {
+    padding: 2rem 1.5rem;
+    position: relative;
+    text-align: center;
+  }
+
+  .step-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: rgba(30,42,74,0.06);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin: 0 auto 1rem;
+  }
+
+  .process-step h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+
+  .process-step p {
+    font-size: 0.875rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  .process-connector {
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    width: 2px;
+    height: 40px;
+    background: var(--border);
+    transform: translateY(-50%);
+  }
+
+  /* CASE STUDY */
+  #results {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  #results h2 { color: var(--white); }
+  #results .section-label { color: var(--accent-light); }
+  #results .section-intro { color: rgba(255,255,255,0.6); }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .result-case {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .result-case h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .result-case .client-type {
+    font-size: 0.8rem;
+    color: var(--accent-light);
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+  }
+
+  .result-case p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .result-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .metric {
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+  }
+
+  .metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-light);
+    display: block;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .stats-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .big-stat {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+  }
+
+  .big-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--accent-light);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .big-stat-label {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* PRICING */
+  #pricing { background: var(--white); }
+
+  .pricing-note {
+    background: var(--accent-pale);
+    border: 1px solid rgba(232,134,58,0.2);
+    border-radius: 10px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.875rem;
+    color: var(--navy);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 720px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .plan-card {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.25s;
+  }
+
+  .plan-card:hover {
+    box-shadow: 0 16px 50px rgba(30,42,74,0.1);
+    transform: translateY(-3px);
+  }
+
+  .plan-card.featured {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: var(--white);
+  }
+
+  .plan-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+  }
+
+  .plan-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .featured .plan-name { color: var(--accent-light); }
+
+  .plan-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .featured .plan-title { color: var(--white); }
+
+  .plan-price {
+    margin-bottom: 0.5rem;
+  }
+
+  .plan-price .amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .featured .plan-price .amount { color: var(--white); }
+
+  .plan-price .period {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .featured .plan-price .period { color: rgba(255,255,255,0.5); }
+
+  .plan-tagline {
+    font-size: 0.85rem;
+    color: var(--slate);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+  }
+
+  .featured .plan-tagline {
+    color: rgba(255,255,255,0.6);
+    border-bottom-color: rgba(255,255,255,0.12);
+  }
+
+  .plan-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .featured .plan-features li { color: rgba(255,255,255,0.85); }
+
+  .check {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(232,134,58,0.15);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    margin-top: 1px;
+    font-weight: 700;
+  }
+
+  .featured .check {
+    background: rgba(244,169,106,0.2);
+    color: var(--accent-light);
+  }
+
+  .plan-cta {
+    display: block;
+    text-align: center;
+    padding: 0.85rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 2px solid var(--navy);
+    color: var(--navy);
+    background: transparent;
+  }
+
+  .plan-cta:hover {
+    background: var(--navy);
+    color: var(--white);
+  }
+
+  .featured .plan-cta {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  .featured .plan-cta:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+  }
+
+  .pricing-addons {
+    margin-top: 3rem;
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+  }
+
+  .pricing-addons h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.25rem;
+  }
+
+  .addon-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .addon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    background: var(--white);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .addon-price {
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+  }
+
+  /* ABOUT */
+  #about { background: var(--cream); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.4rem 0.9rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .badge-icon { font-size: 0.9rem; }
+
+  .about-text p {
+    color: var(--slate);
+    line-height: 1.75;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-main-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 40px rgba(30,42,74,0.08);
+  }
+
+  .about-main-card .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .about-main-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 0.25rem;
+  }
+
+  .about-main-card .role {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1.25rem;
+  }
+
+  .skill-chip {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--navy);
+  }
+
+  .about-float-card {
+    position: absolute;
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 0.875rem 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 30px rgba(30,42,74,0.2);
+  }
+
+  .about-float-card.c1 {
+    bottom: -1.5rem;
+    left: -2rem;
+  }
+
+  .about-float-card.c2 {
+    top: -1rem;
+    right: -1.5rem;
+  }
+
+  .float-icon {
+    font-size: 1.25rem;
+  }
+
+  .float-text strong {
+    display: block;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+  }
+
+  .float-text span {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* FAQ */
+  #faq { background: var(--white); }
+
+  .faq-list {
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq-q {
+    padding: 1.25rem 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--navy);
+    gap: 1rem;
+    transition: color 0.2s;
+    user-select: none;
+  }
+
+  .faq-q:hover { color: var(--accent); }
+
+  .faq-arrow {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 0.7rem;
+    color: var(--slate);
+  }
+
+  .faq-item.open .faq-arrow {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--white);
+    transform: rotate(180deg);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.75;
+  }
+
+  .faq-a-inner { padding-bottom: 1.25rem; }
+
+  .faq-item.open .faq-a { max-height: 200px; }
+
+  /* CTA */
+  #contact {
+    background: var(--cream);
+    text-align: center;
+  }
+
+  .cta-box {
+    background: var(--navy);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(232,134,58,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .cta-box h2 {
+    color: var(--white);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .cta-box p {
+    color: rgba(255,255,255,0.6);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .btn-accent {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    transition: all 0.25s;
+    border: 2px solid var(--accent);
+  }
+
+  .btn-accent:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.25);
+    transition: all 0.25s;
+  }
+
+  .btn-outline-white:hover {
+    border-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.55);
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  footer a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--white); }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-right { display: none; }
+    .results-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-visual { display: none; }
+    .trust-bar { gap: 1rem; }
+    .cta-box { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="17" stroke="#1e2a4a" stroke-width="2"/>
+      <path d="M18 8 L20 13 L18 11 L16 13 Z" fill="#1e2a4a"/>
+      <path d="M28 18 L23 16 L25 18 L23 20 Z" fill="#1e2a4a"/>
+      <path d="M18 28 L16 23 L18 25 L20 23 Z" fill="#1e2a4a"/>
+      <path d="M8 18 L13 20 L11 18 L13 16 Z" fill="#1e2a4a"/>
+      <circle cx="18" cy="18" r="6" stroke="#e8863a" stroke-width="2.5"/>
+      <path d="M15 18 L17 20 L21 16" stroke="#e8863a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-brand">The Hub <span>Mechanic</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-blob"></div>
+    <div class="hero-blob2"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">HubSpot CRM & RevOps Optimization</div>
+      <h1>Your HubSpot.<br>Finally <span class="highlight">working</span><br>for you.</h1>
+      <p class="hero-sub">Stop wrestling with messy pipelines, broken automations, and data you can't trust. The Hub Mechanic fixes, optimizes, and builds HubSpot systems that actually drive revenue — for SMBs around the world.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book a Free Audit →</a>
+        <a href="#services" class="btn-secondary">See What We Do</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-icon">⚙️</div>
+        <div class="hero-card-text">
+          <strong>Workflow Automation Fixed</strong>
+          <span>Sibling deal routing — zero data corruption</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">📊</div>
+        <div class="hero-card-text">
+          <strong>Pipeline Cleanup Complete</strong>
+          <span>Contacts, deals & properties reorganized</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🔗</div>
+        <div class="hero-card-text">
+          <strong>Integration Connected</strong>
+          <span>Third-party tools talking to HubSpot</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🎯</div>
+        <div class="hero-card-text">
+          <strong>Lead Routing Automated</strong>
+          <span>Right rep, right time — every time</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><strong>3+ Years</strong> hands-on HubSpot experience</div>
+  <div class="trust-item"><strong>Real results</strong> for real businesses</div>
+  <div class="trust-item"><strong>SMB-focused</strong> — no bloated agency pricing</div>
+  <div class="trust-item"><strong>Flexible</strong> timezone coverage</div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <h2>HubSpot services that move the needle</h2>
+    <p class="section-intro">Whether your CRM is a mess or you want to scale what's working, we get under the hood and make HubSpot pull its weight.</p>
+
+    <div class="services-grid">
+      <div class="service-card fade-up">
+        <span class="service-icon">🔧</span>
+        <h3>CRM Audit & Cleanup</h3>
+        <p>Diagnose what's broken, duplicate, or holding your team back. We map your current setup and deliver a prioritized fix plan — plus do the fixing.</p>
+        <div class="service-tags">
+          <span class="tag">Contact cleanup</span>
+          <span class="tag">Property audit</span>
+          <span class="tag">Pipeline review</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <span class="service-icon">⚡</span>
+        <h3>Workflow Automation</h3>
+        <p>Complex multi-branch workflows, lead routing, deal creation, task automation, and notification sequences — built to work without babysitting.</p>
+        <div class="service-tags">
+          <span class="tag">Lead routing</span>
+          <span class="tag">Deal workflows</span>
+          <span class="tag">Notifications</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <span class="service-icon">📋</span>
+        <h3>Forms & Data Architecture</h3>
+        <p>Smart form design that collects the right data and sends it to exactly the right place. No more submissions corrupting records or landing in the wrong deal.</p>
+        <div class="service-tags">
+          <span class="tag">Form design</span>
+          <span class="tag">Hidden fields</span>
+          <span class="tag">Data routing</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <span class="service-icon">🎫</span>
+        <h3>Tickets & Service Hub</h3>
+        <p>Build support pipelines, automate ticket creation from emails and forms, set up SLA tracking, and connect your service team to the full customer picture.</p>
+        <div class="service-tags">
+          <span class="tag">Ticket pipelines</span>
+          <span class="tag">SLA setup</span>
+          <span class="tag">Auto-assignment</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <span class="service-icon">📥</span>
+        <h3>Inbox & Conversations</h3>
+        <p>Set up shared inboxes, chatbots, and conversation routing so no lead or customer message ever falls through the cracks again.</p>
+        <div class="service-tags">
+          <span class="tag">Shared inbox</span>
+          <span class="tag">Chatbot flows</span>
+          <span class="tag">Routing rules</span>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <span class="service-icon">🔌</span>
+        <h3>Integrations & Connections</h3>
+        <p>Connect HubSpot with your other tools — Slack, Gmail, calendar apps, payment tools, and more — so data flows where it needs to without manual work.</p>
+        <div class="service-tags">
+          <span class="tag">Native integrations</span>
+          <span class="tag">Zapier / Make</span>
+          <span class="tag">API connections</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2>From chaos to clarity in four steps</h2>
+    <p class="section-intro">No long onboarding, no bloated discovery phases. We move fast, communicate clearly, and deliver real work.</p>
+
+    <div class="process-steps">
+      <div class="process-step fade-up">
+        <div class="step-number">01</div>
+        <div class="step-dot"></div>
+        <h3>Free Audit Call</h3>
+        <p>30-minute call to understand your setup, pain points, and goals. No sales pitch — just honest assessment.</p>
+      </div>
+      <div class="process-step fade-up">
+        <div class="step-number">02</div>
+        <div class="step-dot"></div>
+        <h3>Diagnosis & Proposal</h3>
+        <p>We document what we found, what it's costing you, and exactly what we'll fix — with clear pricing upfront.</p>
+      </div>
+      <div class="process-step fade-up">
+        <div class="step-number">03</div>
+        <div class="step-dot"></div>
+        <h3>Build & Implement</h3>
+        <p>We do the work inside your HubSpot account, keeping you updated at every stage with Loom walkthroughs.</p>
+      </div>
+      <div class="process-step fade-up">
+        <div class="step-number">04</div>
+        <div class="step-dot"></div>
+        <h3>Handoff & Support</h3>
+        <p>You get full documentation of everything built, a walkthrough session, and 14 days of post-delivery support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="container">
+    <div class="section-label">Real Results</div>
+    <h2>Work that actually got done</h2>
+    <p class="section-intro">These are real solutions built for real businesses — not theoretical best practices.</p>
+
+    <div class="results-grid fade-up">
+      <div class="result-case">
+        <h3>Sibling Deal Routing System</h3>
+        <div class="client-type">UK-based Nursery Group</div>
+        <p>Parents registering multiple children caused form submissions to corrupt deal data — wrong DOBs, mismatched names, ongoing manual cleanup across a 3-person admin team.</p>
+        <p>Built a child-specific property architecture, hidden routing checkboxes, custom association labels, and a branching workflow that routes each child's data to exactly the right deal.</p>
+        <div class="result-metrics">
+          <div class="metric">
+            <span class="metric-val">0</span>
+            <span class="metric-label">Data corruptions post-launch</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">3</span>
+            <span class="metric-label">Children supported automatically</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">100%</span>
+            <span class="metric-label">Correct deal routing on test</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">∞</span>
+            <span class="metric-label">Hours of manual cleanup saved</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-column">
+        <div class="big-stat fade-up">
+          <span class="big-stat-num">3+</span>
+          <span class="big-stat-label">Years of hands-on HubSpot implementation across Sales, Service, and Operations</span>
+        </div>
+        <div class="big-stat fade-up">
+          <span class="big-stat-num">5</span>
+          <span class="big-stat-label">HubSpot Hubs worked across — Deals, Contacts, Tickets, Inbox, Forms & Workflows</span>
+        </div>
+        <div class="big-stat fade-up">
+          <span class="big-stat-num">SMB</span>
+          <span class="big-stat-label">Focused — pricing built for growing businesses, not enterprise budgets</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label">Pricing</div>
+    <h2>Clear prices. No surprises.</h2>
+    <p class="section-intro">SMB-friendly rates for businesses anywhere in the world. All prices in USD. Scope-based projects also available — just ask.</p>
+
+    <div class="pricing-note">
+      <span>💡</span>
+      <span><strong>Just getting started together?</strong> Book the free audit first — if the scope turns out to be bigger or smaller than a package below, we'll quote a custom project price before any work begins.</span>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- STARTER -->
+      <div class="plan-card fade-up">
+        <div class="plan-name">Starter</div>
+        <div class="plan-title">Quick Fix</div>
+        <div class="plan-price">
+          <span class="amount">$197</span>
+          <span class="period"> / one-time</span>
+        </div>
+        <p class="plan-tagline">For businesses with one specific problem to solve — a broken workflow, a messy pipeline stage, or a form routing issue.</p>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> 1 focused fix or build (up to 3 hrs work)</li>
+          <li><span class="check">✓</span> Pre-work discovery call (30 min)</span></li>
+          <li><span class="check">✓</span> Loom video walkthrough of completed work</li>
+          <li><span class="check">✓</span> 7-day post-delivery support via email</li>
+          <li><span class="check">✓</span> Written documentation of changes made</li>
+        </ul>
+        <a href="#contact" class="plan-cta">Get Started</a>
+      </div>
+
+      <!-- GROWTH — FEATURED -->
+      <div class="plan-card featured fade-up">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-name">Growth</div>
+        <div class="plan-title">Full Optimization</div>
+        <div class="plan-price">
+          <span class="amount">$497</span>
+          <span class="period"> / one-time</span>
+        </div>
+        <p class="plan-tagline">For businesses ready to stop firefighting and get their HubSpot working properly end-to-end.</p>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Full CRM audit + written findings report</li>
+          <li><span class="check">✓</span> Up to 3 workflows built or fixed</li>
+          <li><span class="check">✓</span> Property & pipeline cleanup</li>
+          <li><span class="check">✓</span> Form review + data routing fix</li>
+          <li><span class="check">✓</span> Live walkthrough session (45 min)</li>
+          <li><span class="check">✓</span> 14-day post-delivery support</li>
+          <li><span class="check">✓</span> Full documentation package</li>
+        </ul>
+        <a href="#contact" class="plan-cta">Book Free Audit First</a>
+      </div>
+
+      <!-- RETAINER -->
+      <div class="plan-card fade-up">
+        <div class="plan-name">Retainer</div>
+        <div class="plan-title">Ongoing Partner</div>
+        <div class="plan-price">
+          <span class="amount">$349</span>
+          <span class="period"> / month</span>
+        </div>
+        <p class="plan-tagline">For growing businesses that need HubSpot to keep up as the team and processes evolve.</p>
+        <ul class="plan-features">
+          <li><span class="check">✓</span> Up to 8 hrs of HubSpot work per month</li>
+          <li><span class="check">✓</span> Priority response (within 1 business day)</li>
+          <li><span class="check">✓</span> Monthly check-in call (30 min)</li>
+          <li><span class="check">✓</span> Ongoing builds, fixes & improvements</li>
+          <li><span class="check">✓</span> Strategy & RevOps recommendations</li>
+          <li><span class="check">✓</span> Cancel anytime — no lock-in</li>
+        </ul>
+        <a href="#contact" class="plan-cta">Let's Talk</a>
+      </div>
+    </div>
+
+    <!-- ADD-ONS -->
+    <div class="pricing-addons fade-up">
+      <h3>À la carte add-ons</h3>
+      <div class="addon-list">
+        <div class="addon-item">
+          <span>CRM Audit Report (standalone)</span>
+          <span class="addon-price">$97</span>
+        </div>
+        <div class="addon-item">
+          <span>Single Workflow Build</span>
+          <span class="addon-price">$127</span>
+        </div>
+        <div class="addon-item">
+          <span>HubSpot Training Session (1 hr)</span>
+          <span class="addon-price">$89</span>
+        </div>
+        <div class="addon-item">
+          <span>Integration Setup (1 tool)</span>
+          <span class="addon-price">$147</span>
+        </div>
+        <div class="addon-item">
+          <span>Data Import & Cleanup</span>
+          <span class="addon-price">from $149</span>
+        </div>
+        <div class="addon-item">
+          <span>Custom Property Architecture</span>
+          <span class="addon-price">$197</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">About</div>
+        <h2>Built by someone who actually uses HubSpot every day</h2>
+
+        <div class="about-badges">
+          <span class="badge"><span class="badge-icon">📍</span> Based in the Philippines</span>
+          <span class="badge"><span class="badge-icon">🌏</span> Serving clients globally</span>
+          <span class="badge"><span class="badge-icon">⏱️</span> 3+ years HubSpot</span>
+        </div>
+
+        <p>The Hub Mechanic was founded by someone who's been in your shoes — building and managing HubSpot as a Head of Sales & Customer Service, not as a consultant who's only ever seen it from the outside.</p>
+        <p>That means I've dealt with the ugly reality: forms submitting to the wrong deals, workflows firing at the wrong time, pipelines that made sense six months ago but now nobody understands. And I've fixed all of it — for my own teams, and now for yours.</p>
+        <p>I'm not a HubSpot partner yet (that's coming), which means my prices don't have agency overhead baked in. You get expert-level work at independent consultant rates — and a genuine stake in making your system work properly.</p>
+
+        <a href="#contact" class="btn-primary" style="margin-top: 1.5rem; display: inline-flex;">Work with me →</a>
+      </div>
+
+      <div class="about-visual">
+        <div class="about-main-card">
+          <div class="avatar">JM</div>
+          <h3>The Hub Mechanic</h3>
+          <div class="role">HubSpot CRM & RevOps Specialist</div>
+          <p style="font-size: 0.85rem; color: var(--slate); line-height: 1.6;">Head of Sales & Customer Service background. 3+ years building HubSpot systems that actually work for the people using them every day.</p>
+          <div class="skill-chips">
+            <span class="skill-chip">Workflows</span>
+            <span class="skill-chip">Deals & Pipelines</span>
+            <span class="skill-chip">Tickets</span>
+            <span class="skill-chip">Shared Inbox</span>
+            <span class="skill-chip">Forms</span>
+            <span class="skill-chip">Contacts</span>
+            <span class="skill-chip">Automations</span>
+            <span class="skill-chip">Integrations</span>
+            <span class="skill-chip">RevOps</span>
+          </div>
+        </div>
+        <div class="about-float-card c1">
+          <span class="float-icon">⚙️</span>
+          <div class="float-text">
+            <strong>3+ Years</strong>
+            <span>Active HubSpot implementation</span>
+          </div>
+        </div>
+        <div class="about-float-card c2">
+          <span class="float-icon">🌏</span>
+          <div class="float-text">
+            <strong>Global Clients</strong>
+            <span>Flexible timezone coverage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2>Common questions</h2>
+    <p class="section-intro" style="margin-bottom: 2rem;">Anything not answered here? Just ask during the free audit call.</p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do I need to be on a paid HubSpot plan?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Some features (like complex workflows, sequences, and reporting) require a paid HubSpot subscription. If you're on the free plan, we'll tell you honestly what's possible and what would require an upgrade — there's no pressure either way. Many quick fixes and setup improvements can be done on any plan.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How do you work with international clients?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Fully remote. We use Zoom or Google Meet for calls, Loom for async walkthroughs, and email for updates. I'm based in the Philippines (GMT+8) but can flex around your timezone for calls — most European, AU, and US clients haven't had any issues scheduling.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How long does a project take?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Quick Fix projects are typically completed within 3–5 business days. Full Optimization projects usually take 1–2 weeks depending on complexity. For retainer work, priority turnaround is within 1 business day. We'll give you an honest timeline before any work starts.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Will you need admin access to my HubSpot?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Yes — to build and implement changes, we need to be added as a user with the right permissions. You can set this up as a limited admin role, and remove access any time after the project is complete. We document every change we make so you have full visibility.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What if I need something that's not in your packages?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Just ask. The packages cover the most common needs, but plenty of work is scoped as custom projects. The free audit call is the best place to explain what you need — and we'll give you a straight quote for it with no pressure to buy.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Are you a certified HubSpot Partner?
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Not yet — partner certification is in progress. In the meantime, all work is backed by 3+ years of hands-on HubSpot experience in a real business environment, not just certifications. The lower prices are a direct benefit of not having partner agency overhead — and that changes nothing about the quality of the work.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Ready to fix your HubSpot?</h2>
+      <p>Book a free 30-minute audit call. No pitch, no pressure — just an honest look at what's holding your CRM back and what it would take to fix it.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-accent">Book Free Audit Call →</a>
+        <a href="mailto:hello@thehubmechanic.com" class="btn-outline-white">Or email us directly</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span>© 2025 The Hub Mechanic · <a href="https://thehubmechanic.com">thehubmechanic.com</a></span>
+    <span>HubSpot CRM & RevOps Optimization · Philippines</span>
+    <span><a href="mailto:hello@thehubmechanic.com">hello@thehubmechanic.com</a></span>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
